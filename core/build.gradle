@@ -1,5 +1,30 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'Idgie'
+    bintrayOrg = 'appcraftlab'
+
+    publishedGroupId = 'com.appcraft'
+    libraryName = 'Idgie'
+    artifact = 'idgie-core'
+
+    libraryDescription = 'Android OAuth client library'
+
+    siteUrl = 'https://github.com/vadimZasovin/Idgie'
+    gitUrl = 'https://github.com/vadimZasovin/Idgie.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'vadimzasovin'
+    developerName = 'Vadim Zasovin'
+    developerEmail = 'vzasovin@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
@@ -34,3 +59,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.0'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://gist.githubusercontent.com/vadimZasovin/652557d8a2e3795957cfb9eaed70e489/raw/4285b60d3b7836ae75a789e797b763c842debe3a/bintray.gradle'
+
