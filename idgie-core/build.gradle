@@ -5,7 +5,7 @@ ext {
     bintrayName = 'Idgie'
     bintrayOrg = 'appcraftlab'
 
-    publishedGroupId = 'com.appcraft'
+    publishedGroupId = 'com.appcraftlab'
     libraryName = 'Idgie'
     artifact = 'idgie-core'
 
