@@ -17,9 +17,9 @@ import android.webkit.WebViewClient;
 
 public class WebActivity extends Activity {
 
-    static final String EXTRA_URL =
+    public static final String EXTRA_URL =
             "com.appcraft.uremont.WebActivity.EXTRA_URL";
-    static final String EXTRA_REDIRECT_URI =
+    public static final String EXTRA_REDIRECT_URI =
             "com.appcraft.uremont.WebActivity.EXTRA_REDIRECT_URI";
 
     private WebView mWebView;

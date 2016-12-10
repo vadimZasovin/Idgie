@@ -13,7 +13,7 @@ import android.support.v4.app.Fragment;
  * Created by Admin on 07.12.2016.
  */
 
-abstract class AbstractIdentityProvider implements IdentityProvider {
+public abstract class AbstractIdentityProvider implements IdentityProvider {
 
     @Override
     public void initiateAuthorizationFlow(@NonNull Activity activity, int requestCode) {
@@ -60,10 +60,10 @@ abstract class AbstractIdentityProvider implements IdentityProvider {
     }
 
     @NonNull
-    abstract String getAuthorizationUrl();
+    protected abstract String getAuthorizationUrl();
 
     @NonNull
-    abstract String getRedirectUri();
+    protected abstract String getRedirectUri();
 
     private Intent createAuthorizationWebActivityIntent(Context context){
         Intent intent = new Intent(context, WebActivity.class);
@@ -92,18 +92,18 @@ abstract class AbstractIdentityProvider implements IdentityProvider {
     }
 
     @NonNull
-    abstract RedirectUriParser getRedirectUriParser();
+    protected abstract RedirectUriParser getRedirectUriParser();
 
-    static abstract class AbstractBuilder<T extends IdentityProvider> implements Builder<T>{
+    protected static abstract class AbstractBuilder<T extends IdentityProvider> implements Builder<T> {
 
         private final StringBuilder mUrlBuilder;
         private boolean mFirstUrlParameter = true;
 
-        AbstractBuilder(){
+        protected AbstractBuilder(){
             mUrlBuilder = new StringBuilder();
         }
 
-        final void appendUrlParameter(String name, String value){
+        protected final void appendUrlParameter(String name, String value){
             appendUrlParameterPrefix();
             appendUrlParameterInternal(name, value);
         }
@@ -121,11 +121,11 @@ abstract class AbstractIdentityProvider implements IdentityProvider {
             mUrlBuilder.append(name).append("=").append(value);
         }
 
-        final void appendValue(CharSequence value){
+        protected final void appendValue(CharSequence value){
             mUrlBuilder.append(value);
         }
 
-        final String getUrl(){
+        protected final String getUrl(){
             return mUrlBuilder.toString();
         }
     }

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Created by Admin on 02.12.2016.
  */
 
-class DefaultRedirectUriParser implements RedirectUriParser {
+public class DefaultRedirectUriParser implements RedirectUriParser {
 
     private static final String DEFAULT_TOKEN_TYPE = "Bearer";
     private static final long DEFAULT_EXPIRES_IN = Long.MAX_VALUE;
@@ -23,7 +23,7 @@ class DefaultRedirectUriParser implements RedirectUriParser {
     private AuthorizationResultImpl mAuthorizationResult;
     private AccessToken mAccessToken;
 
-    DefaultRedirectUriParser(@NonNull String tokenParamName,
+    public DefaultRedirectUriParser(@NonNull String tokenParamName,
                                     @Nullable String typeParamName,
                                     @Nullable String expiresParamName){
         ArgumentValidator.throwIfEmpty(tokenParamName, "Token param name");

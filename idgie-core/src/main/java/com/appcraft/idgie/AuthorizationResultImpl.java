@@ -6,7 +6,7 @@ import android.text.TextUtils;
  * Created by Admin on 07.12.2016.
  */
 
-class AuthorizationResultImpl implements AuthorizationResult {
+public class AuthorizationResultImpl implements AuthorizationResult {
 
     AccessToken mAccessToken;
 

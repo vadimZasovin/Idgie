@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/vadimZasovin/Idgie'
     gitUrl = 'https://github.com/vadimZasovin/Idgie.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.3'
 
     developerId = 'vadimzasovin'
     developerName = 'Vadim Zasovin'
@@ -28,7 +28,6 @@ ext {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
-    enforceUniquePackageName = false
 
     defaultConfig {
         minSdkVersion 15
