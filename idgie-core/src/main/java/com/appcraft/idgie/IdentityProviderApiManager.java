@@ -27,7 +27,7 @@ public class IdentityProviderApiManager<T> {
 
     private IdentityProviderApiManager(final Builder<T> builder){
         HttpLoggingInterceptor loggingInterceptor = null;
-        if(BuildConfig.DEBUG){
+        if(builder.mLoggingEnabled){
             loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         }
@@ -68,6 +68,7 @@ public class IdentityProviderApiManager<T> {
         private String mBaseUrl;
         private Class<T> mClass;
         private AccessToken mAccessToken;
+        private boolean mLoggingEnabled;
 
         public Builder<T> baseUrl(String baseUrl){
             ArgumentValidator.throwIfEmpty(baseUrl, "Base url");
@@ -84,6 +85,11 @@ public class IdentityProviderApiManager<T> {
         public Builder<T> accessToken(AccessToken accessToken){
             ArgumentValidator.throwIfNull(accessToken, "Access token");
             mAccessToken = accessToken;
+            return this;
+        }
+
+        public Builder<T> enableLogging(){
+            mLoggingEnabled = true;
             return this;
         }
 
