@@ -3,7 +3,6 @@ apply plugin: 'com.android.library'
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'Idgie'
-    bintrayOrg = 'appcraftlab'
 
     publishedGroupId = 'com.appcraftlab'
     libraryName = 'Idgie'
@@ -27,7 +26,7 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -51,14 +50,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:customtabs:25.0.1'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:customtabs:25.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://gist.githubusercontent.com/vadimZasovin/652557d8a2e3795957cfb9eaed70e489/raw/4285b60d3b7836ae75a789e797b763c842debe3a/bintray.gradle'
+apply from: 'https://gist.githubusercontent.com/vadimZasovin/652557d8a2e3795957cfb9eaed70e489/raw/c36624273500402466d8b142b6bcdca60728a783/bintray.gradle'
 

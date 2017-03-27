@@ -3,7 +3,6 @@ apply plugin: 'com.android.library'
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'idgie-facebook'
-    bintrayOrg = 'appcraftlab'
 
     publishedGroupId = 'com.appcraftlab'
     libraryName = 'Idgie'
@@ -27,7 +26,7 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -55,4 +54,4 @@ dependencies {
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://gist.githubusercontent.com/vadimZasovin/652557d8a2e3795957cfb9eaed70e489/raw/4285b60d3b7836ae75a789e797b763c842debe3a/bintray.gradle'
+apply from: 'https://gist.githubusercontent.com/vadimZasovin/652557d8a2e3795957cfb9eaed70e489/raw/c36624273500402466d8b142b6bcdca60728a783/bintray.gradle'
