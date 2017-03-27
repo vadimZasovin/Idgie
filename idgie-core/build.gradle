@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'maven'
+    bintrayRepo = 'maven_oss'
     bintrayName = 'Idgie'
 
     publishedGroupId = 'com.appcraftlab'
@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/vadimZasovin/Idgie'
     gitUrl = 'https://github.com/vadimZasovin/Idgie.git'
 
-    libraryVersion = '1.0.3'
+    libraryVersion = '1.0.4'
 
     developerId = 'vadimzasovin'
     developerName = 'Vadim Zasovin'
