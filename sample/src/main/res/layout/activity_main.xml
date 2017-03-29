@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/facebookButton"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:background="@color/colorFacebook"
+        android:textColor="@android:color/white"
+        android:text="@string/facebook"/>
+
+    <Button
+        android:id="@+id/googleButton"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorGoogle"
+        android:textColor="@android:color/white"
+        android:text="@string/google"/>
+
+    <Button
+        android:id="@+id/vkButton"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorVk"
+        android:textColor="@android:color/white"
+        android:text="@string/vk"/>
+
+    <Button
+        android:id="@+id/yandexButton"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorYandex"
+        android:textColor="@android:color/black"
+        android:text="@string/yandex"/>
+
+</LinearLayout>

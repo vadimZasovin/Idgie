@@ -18,23 +18,24 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * Created by Admin on 01.12.2016.
  */
 
-public class IdentityProviderApiManager<T> {
+public class ApiCore<T> {
 
-    private static final long READ_TIMEOUT = 5;
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final T mApi;
 
-    private IdentityProviderApiManager(final Builder<T> builder){
+    private ApiCore(final Builder<T> builder){
         HttpLoggingInterceptor loggingInterceptor = null;
         if(builder.mLoggingEnabled){
             loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         }
+
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         if(loggingInterceptor != null){
             clientBuilder.addInterceptor(loggingInterceptor);
         }
+
         clientBuilder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -47,7 +48,10 @@ public class IdentityProviderApiManager<T> {
                 return chain.proceed(intercepted);
             }
         });
-        clientBuilder.readTimeout(READ_TIMEOUT, TimeUnit.MINUTES);
+
+        long readTimeout = builder.mReadTimeout;
+        TimeUnit readTimeoutTimeUnit = builder.mReadTimeoutTimeUnit;
+        clientBuilder.readTimeout(readTimeout, readTimeoutTimeUnit);
 
         OkHttpClient client = clientBuilder.build();
         Retrofit retrofit = new Retrofit.Builder()
@@ -56,6 +60,7 @@ public class IdentityProviderApiManager<T> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+
         mApi = retrofit.create(builder.mClass);
     }
 
@@ -69,6 +74,14 @@ public class IdentityProviderApiManager<T> {
         private Class<T> mClass;
         private AccessToken mAccessToken;
         private boolean mLoggingEnabled;
+        private long mReadTimeout;
+        private TimeUnit mReadTimeoutTimeUnit;
+
+        public Builder(){
+            // defaults
+            mReadTimeout = 15;
+            mReadTimeoutTimeUnit = TimeUnit.SECONDS;
+        }
 
         public Builder<T> baseUrl(String baseUrl){
             ArgumentValidator.throwIfEmpty(baseUrl, "Base url");
@@ -93,8 +106,14 @@ public class IdentityProviderApiManager<T> {
             return this;
         }
 
-        public IdentityProviderApiManager<T> build(){
-            return new IdentityProviderApiManager<>(this);
+        public Builder<T> readTimeout(long timeout, TimeUnit timeUnit){
+            mReadTimeout = timeout;
+            mReadTimeoutTimeUnit = timeUnit;
+            return this;
+        }
+
+        public ApiCore<T> build(){
+            return new ApiCore<>(this);
         }
     }
 }

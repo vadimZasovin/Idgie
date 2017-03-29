@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    
+    <color name="colorFacebook">#3b5998</color>
+    <color name="colorGoogle">#db4437</color>
+    <color name="colorVk">#507299</color>
+    <color name="colorYandex">#ffd633</color>
 </resources>

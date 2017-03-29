@@ -1,1 +1,1 @@
-include ':sample', ':idgie-core', ':idgie-facebook', ':idgie-google', ':idgie-vk', ':idgie-yandex'
+include ':idgie-core', ':idgie-facebook', ':idgie-google', ':idgie-vk', ':idgie-yandex', ':sample'
