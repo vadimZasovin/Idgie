@@ -1,7 +1,5 @@
 package com.appcraft.idgie.facebook;
 
-import com.appcraft.idgie.facebook.model.FacebookProfile;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

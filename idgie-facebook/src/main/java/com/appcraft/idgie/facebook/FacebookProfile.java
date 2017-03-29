@@ -1,4 +1,4 @@
-package com.appcraft.idgie.facebook.model;
+package com.appcraft.idgie.facebook;
 
 import com.google.gson.annotations.SerializedName;
 

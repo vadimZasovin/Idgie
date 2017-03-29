@@ -1,4 +1,4 @@
-package com.appcraft.idgie.facebook.model;
+package com.appcraft.idgie.facebook;
 
 
 /**
@@ -10,7 +10,7 @@ public final class FacebookProfileFields {
     public static final String NAME = "name";
     public static final String EMAIL = "email";
 
-    public static String createSingleUrlParameter(String... fields){
+    static String createSingleUrlParameter(String... fields){
         if(fields == null || fields.length == 0){
             throw new IllegalArgumentException("Fields must not be empty");
         }

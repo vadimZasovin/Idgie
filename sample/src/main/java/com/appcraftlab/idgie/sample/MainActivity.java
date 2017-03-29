@@ -8,11 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.appcraft.idgie.AccessToken;
+import com.appcraft.idgie.ApiRequestException;
 import com.appcraft.idgie.AuthorizationResult;
 import com.appcraft.idgie.IdentityProvider;
 import com.appcraft.idgie.facebook.FacebookApi;
+import com.appcraft.idgie.facebook.FacebookApiManager;
 import com.appcraft.idgie.facebook.FacebookIdentityProvider;
 import com.appcraft.idgie.facebook.FacebookPermissions;
+import com.appcraft.idgie.facebook.FacebookProfileFields;
 import com.appcraft.idgie.google.GoogleIdentityProvider;
 import com.appcraft.idgie.vk.VkIdentityProvider;
 import com.appcraft.idgie.yandex.YandexIdentityProvider;
@@ -126,7 +129,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void loadProfileInfo(AccessToken accessToken){
-
+    private void loadProfileInfo(final AccessToken accessToken){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    new FacebookApiManager.Builder()
+                            .accessToken(accessToken)
+                            .enableLogging(true)
+                            .build().getProfile(FacebookProfileFields.NAME);
+                } catch (ApiRequestException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 }
