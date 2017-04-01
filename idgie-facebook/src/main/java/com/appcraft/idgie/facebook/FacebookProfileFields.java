@@ -1,6 +1,8 @@
 package com.appcraft.idgie.facebook;
 
 
+import android.text.TextUtils;
+
 /**
  * Created by Admin on 02.12.2016.
  */
@@ -16,10 +18,12 @@ public final class FacebookProfileFields {
         }
         StringBuilder stringBuilder = new StringBuilder();
         for(String field : fields){
-            if(stringBuilder.length() > 0){
-                stringBuilder.append(',');
+            if(!TextUtils.isEmpty(field)){
+                if(stringBuilder.length() > 0){
+                    stringBuilder.append(',');
+                }
+                stringBuilder.append(field);
             }
-            stringBuilder.append(field);
         }
         return stringBuilder.toString();
     }

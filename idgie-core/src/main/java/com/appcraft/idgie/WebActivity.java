@@ -22,32 +22,32 @@ public class WebActivity extends Activity {
     public static final String EXTRA_REDIRECT_URI =
             "com.appcraft.uremont.WebActivity.EXTRA_REDIRECT_URI";
 
-    private WebView mWebView;
+    private WebView webView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        mWebView = new WebView(this);
-        setContentView(mWebView);
+        webView = new WebView(this);
+        setContentView(webView);
 
         initWebView();
         loadUrl(intent);
 
         String redirectUri = intent.getStringExtra(EXTRA_REDIRECT_URI);
         WebViewClient client = new InternalWebViewClient(redirectUri);
-        mWebView.setWebViewClient(client);
+        webView.setWebViewClient(client);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView(){
-        WebSettings settings = mWebView.getSettings();
+        WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
     }
 
     private void loadUrl(Intent intent){
         String url = intent.getStringExtra(EXTRA_URL);
-        mWebView.loadUrl(url);
+        webView.loadUrl(url);
     }
 
     private class InternalWebViewClient extends WebViewClient{

@@ -1,4 +1,4 @@
-package com.appcraft.idgie.google.model;
+package com.appcraft.idgie.google;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,6 +22,8 @@ public class GoogleProfile {
 
     @SerializedName("displayName")
     private String displayName;
+
+    private GoogleProfile(){}
 
     public String getGender() {
         return gender;

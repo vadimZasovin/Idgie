@@ -17,6 +17,8 @@ public class FacebookProfile {
     @SerializedName("email")
     private String email;
 
+    private FacebookProfile(){}
+
     public String getName() {
         return name;
     }

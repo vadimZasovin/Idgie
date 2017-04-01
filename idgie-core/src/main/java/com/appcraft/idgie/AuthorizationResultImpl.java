@@ -8,15 +8,15 @@ import android.text.TextUtils;
 
 public class AuthorizationResultImpl implements AuthorizationResult {
 
-    AccessToken mAccessToken;
+    AccessToken accessToken;
 
     @Override
     public AccessToken getAccessToken() {
-        return mAccessToken;
+        return accessToken;
     }
 
     @Override
     public boolean isAuthorized() {
-        return mAccessToken != null && !TextUtils.isEmpty(mAccessToken.token);
+        return accessToken != null && !TextUtils.isEmpty(accessToken.token);
     }
 }

@@ -1,7 +1,5 @@
 package com.appcraft.idgie.vk;
 
-import com.appcraft.idgie.vk.model.VkProfileResponseBody;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

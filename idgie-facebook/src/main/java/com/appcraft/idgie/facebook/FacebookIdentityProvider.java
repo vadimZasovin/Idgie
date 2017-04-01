@@ -17,12 +17,8 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
 
     public static final String NAME = "Facebook";
 
-    private final String mAuthorizationUrl;
-    private final String mRedirectUri;
-
     private FacebookIdentityProvider(String authorizationUrl, String redirectUri){
-        mAuthorizationUrl = authorizationUrl;
-        mRedirectUri = redirectUri;
+        super(authorizationUrl, redirectUri);
     }
 
     public static ApiVersionSetter startBuilding(){
@@ -33,18 +29,6 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
     @Override
     public String getName() {
         return NAME;
-    }
-
-    @NonNull
-    @Override
-    protected String getAuthorizationUrl() {
-        return mAuthorizationUrl;
-    }
-
-    @NonNull
-    @Override
-    protected String getRedirectUri() {
-        return mRedirectUri;
     }
 
     @NonNull
@@ -65,7 +49,7 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
         private static final String BASE_AUTHORIZATION_URL = "https://facebook.com/";
         private static final String RESPONSE_TYPE = "token";
 
-        private String mRedirectUri;
+        private String redirectUri;
 
         private InternalBuilder(){
             appendValue(BASE_AUTHORIZATION_URL);
@@ -117,14 +101,14 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
         public Finish<FacebookIdentityProvider> redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
             appendUrlParameter("redirect_uri", redirectUri);
-            mRedirectUri = redirectUri;
+            this.redirectUri = redirectUri;
             return this;
         }
 
         @Override
         public FacebookIdentityProvider build() {
             appendUrlParameter("response_type", RESPONSE_TYPE);
-            return new FacebookIdentityProvider(getUrl(), mRedirectUri);
+            return new FacebookIdentityProvider(getUrl(), redirectUri);
         }
     }
 }

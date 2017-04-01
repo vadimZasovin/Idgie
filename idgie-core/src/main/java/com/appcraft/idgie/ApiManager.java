@@ -12,44 +12,44 @@ import retrofit2.Response;
 
 public abstract class ApiManager {
 
-    protected final AccessToken mAccessToken;
-    protected final boolean mEnableLogging;
-    protected final long mReadTimeout;
-    protected final TimeUnit mReadTimeoutTimeUnit;
+    protected final AccessToken accessToken;
+    protected final boolean loggingEnabled;
+    protected final long readTimeout;
+    protected final TimeUnit readTimeoutTimeUnit;
 
     protected ApiManager(Builder builder){
-        mAccessToken = builder.mAccessToken;
-        mEnableLogging = builder.mEnableLogging;
-        mReadTimeout = builder.mReadTimeout;
-        mReadTimeoutTimeUnit = builder.mReadTimeoutTimeUnit;
+        accessToken = builder.accessToken;
+        loggingEnabled = builder.loggingEnabled;
+        readTimeout = builder.readTimeout;
+        readTimeoutTimeUnit = builder.readTimeoutTimeUnit;
     }
 
     public static abstract class Builder<T extends ApiManager>{
 
-        private AccessToken mAccessToken;
-        private boolean mEnableLogging;
-        private long mReadTimeout;
-        private TimeUnit mReadTimeoutTimeUnit;
+        private AccessToken accessToken;
+        private boolean loggingEnabled;
+        private long readTimeout;
+        private TimeUnit readTimeoutTimeUnit;
 
         public Builder(){
             // defaults
-            mReadTimeout = 15;
-            mReadTimeoutTimeUnit = TimeUnit.SECONDS;
+            readTimeout = 15;
+            readTimeoutTimeUnit = TimeUnit.SECONDS;
         }
 
         public Builder<T> accessToken(AccessToken accessToken){
-            mAccessToken = accessToken;
+            this.accessToken = accessToken;
             return this;
         }
 
-        public Builder<T> enableLogging(boolean enableLogging){
-            mEnableLogging = enableLogging;
+        public Builder<T> enableLogging(){
+            loggingEnabled = true;
             return this;
         }
 
         public Builder<T> readTimeout(long timeout, TimeUnit timeUnit){
-            mReadTimeout = timeout;
-            mReadTimeoutTimeUnit = timeUnit;
+            readTimeout = timeout;
+            readTimeoutTimeUnit = timeUnit;
             return this;
         }
 

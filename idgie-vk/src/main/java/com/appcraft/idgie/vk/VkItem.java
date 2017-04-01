@@ -1,4 +1,4 @@
-package com.appcraft.idgie.vk.model;
+package com.appcraft.idgie.vk;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -13,6 +13,8 @@ public class VkItem {
 
     @SerializedName("title")
     private String title;
+
+    private VkItem(){}
 
     public int getId() {
         return id;

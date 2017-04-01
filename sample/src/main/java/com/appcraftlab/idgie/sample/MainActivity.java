@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.appcraft.idgie.AccessToken;
@@ -15,6 +16,7 @@ import com.appcraft.idgie.facebook.FacebookApi;
 import com.appcraft.idgie.facebook.FacebookApiManager;
 import com.appcraft.idgie.facebook.FacebookIdentityProvider;
 import com.appcraft.idgie.facebook.FacebookPermissions;
+import com.appcraft.idgie.facebook.FacebookProfile;
 import com.appcraft.idgie.facebook.FacebookProfileFields;
 import com.appcraft.idgie.google.GoogleIdentityProvider;
 import com.appcraft.idgie.vk.VkIdentityProvider;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final int RC_AUTHORIZE = 1;
 
-    private IdentityProvider mIdentityProvider;
+    private IdentityProvider identityProvider;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void authorize(String name){
         switch (name){
             case FacebookIdentityProvider.NAME:
-                mIdentityProvider = createFacebookIdentityProvider();
+                identityProvider = createFacebookIdentityProvider();
                 break;
             case GoogleIdentityProvider.NAME:
                 break;
@@ -89,10 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void authorize(){
-        if(mIdentityProvider.usesCustomRedirectUriScheme()){
-            mIdentityProvider.initiateAuthorizationFlow(this);
+        if(identityProvider.usesCustomRedirectUriScheme()){
+            identityProvider.initiateAuthorizationFlow(this);
         }else {
-            mIdentityProvider.initiateAuthorizationFlow(this, RC_AUTHORIZE);
+            identityProvider.initiateAuthorizationFlow(this, RC_AUTHORIZE);
         }
     }
 
@@ -104,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private AuthorizationResult extractAuthorizationResult(Intent intent){
-        if(mIdentityProvider != null){
-            return mIdentityProvider.extractAuthorizationResultFromIntent(intent);
+        if(identityProvider != null){
+            return identityProvider.extractAuthorizationResultFromIntent(intent);
         }
         return null;
     }
@@ -134,10 +136,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 try {
-                    new FacebookApiManager.Builder()
+                    FacebookProfile profile = new FacebookApiManager.Builder()
                             .accessToken(accessToken)
-                            .enableLogging(true)
+                            .enableLogging()
                             .build().getProfile(FacebookProfileFields.NAME);
+                    Log.d("MARAMBRA", profile.getName());
                 } catch (ApiRequestException e) {
                     e.printStackTrace();
                 }

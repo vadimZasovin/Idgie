@@ -15,12 +15,8 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
 
     public static final String NAME = "Yandex";
 
-    private final String mAuthorizationUrl;
-    private final String mRedirectUri;
-
     private YandexIdentityProvider(String authorizationUrl, String redirectUri){
-        mAuthorizationUrl = authorizationUrl;
-        mRedirectUri = redirectUri;
+        super(authorizationUrl, redirectUri);
     }
 
     public static DeviceIdSetter startBuilding(){
@@ -31,18 +27,6 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
     @Override
     public String getName() {
         return NAME;
-    }
-
-    @NonNull
-    @Override
-    protected String getAuthorizationUrl() {
-        return mAuthorizationUrl;
-    }
-
-    @NonNull
-    @Override
-    protected String getRedirectUri() {
-        return mRedirectUri;
     }
 
     @NonNull
@@ -70,7 +54,7 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
         private static final String DISPLAY_MODE = "popup";
         private static final String FORCE_CONFIRM = Boolean.toString(true);
 
-        private String mRedirectUri;
+        private String redirectUri;
 
         private InternalBuilder(){
             appendValue(BASE_AUTHORIZATION_URL);
@@ -103,13 +87,13 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
         @Override
         public Finish<YandexIdentityProvider> redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
-            mRedirectUri = redirectUri;
+            this.redirectUri = redirectUri;
             return this;
         }
 
         @Override
         public YandexIdentityProvider build() {
-            return new YandexIdentityProvider(getUrl(), mRedirectUri);
+            return new YandexIdentityProvider(getUrl(), redirectUri);
         }
     }
 }

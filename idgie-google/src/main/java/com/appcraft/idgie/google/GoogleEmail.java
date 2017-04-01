@@ -1,4 +1,4 @@
-package com.appcraft.idgie.google.model;
+package com.appcraft.idgie.google;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +15,8 @@ public class GoogleEmail {
 
     @SerializedName("value")
     private String value;
+
+    private GoogleEmail(){}
 
     public String getType() {
         return type;

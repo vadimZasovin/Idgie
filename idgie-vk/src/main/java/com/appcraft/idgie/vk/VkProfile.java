@@ -1,4 +1,4 @@
-package com.appcraft.idgie.vk.model;
+package com.appcraft.idgie.vk;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -35,6 +35,8 @@ public class VkProfile {
 
     @SerializedName("phone")
     private String phone;
+
+    private VkProfile(){}
 
     public String getFirstName() {
         return firstName;

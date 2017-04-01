@@ -1,7 +1,5 @@
 package com.appcraft.idgie.google;
 
-import com.appcraft.idgie.google.model.GoogleProfile;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

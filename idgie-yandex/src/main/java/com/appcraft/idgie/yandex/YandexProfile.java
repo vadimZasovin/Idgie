@@ -1,4 +1,4 @@
-package com.appcraft.idgie.yandex.model;
+package com.appcraft.idgie.yandex;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -37,6 +37,8 @@ public class YandexProfile {
 
     @SerializedName("id")
     private String id;
+
+    private YandexProfile(){}
 
     public String getFirstName() {
         return firstName;

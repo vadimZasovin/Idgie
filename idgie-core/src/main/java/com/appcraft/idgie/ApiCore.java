@@ -22,11 +22,11 @@ public class ApiCore<T> {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private final T mApi;
+    private final T api;
 
     private ApiCore(final Builder<T> builder){
         HttpLoggingInterceptor loggingInterceptor = null;
-        if(builder.mLoggingEnabled){
+        if(builder.loggingEnabled){
             loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         }
@@ -40,7 +40,7 @@ public class ApiCore<T> {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
-                AccessToken accessToken = builder.mAccessToken;
+                AccessToken accessToken = builder.accessToken;
                 String header = accessToken.type + " " + accessToken.token;
                 Request intercepted = original.newBuilder()
                         .addHeader(AUTHORIZATION_HEADER, header)
@@ -49,66 +49,66 @@ public class ApiCore<T> {
             }
         });
 
-        long readTimeout = builder.mReadTimeout;
-        TimeUnit readTimeoutTimeUnit = builder.mReadTimeoutTimeUnit;
+        long readTimeout = builder.readTimeout;
+        TimeUnit readTimeoutTimeUnit = builder.readTimeoutTimeUnit;
         clientBuilder.readTimeout(readTimeout, readTimeoutTimeUnit);
 
         OkHttpClient client = clientBuilder.build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(builder.mBaseUrl)
+                .baseUrl(builder.baseUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
 
-        mApi = retrofit.create(builder.mClass);
+        api = retrofit.create(builder.clazz);
     }
 
     public T api(){
-        return mApi;
+        return api;
     }
 
     public static final class Builder<T>{
 
-        private String mBaseUrl;
-        private Class<T> mClass;
-        private AccessToken mAccessToken;
-        private boolean mLoggingEnabled;
-        private long mReadTimeout;
-        private TimeUnit mReadTimeoutTimeUnit;
+        private String baseUrl;
+        private Class<T> clazz;
+        private AccessToken accessToken;
+        private boolean loggingEnabled;
+        private long readTimeout;
+        private TimeUnit readTimeoutTimeUnit;
 
         public Builder(){
             // defaults
-            mReadTimeout = 15;
-            mReadTimeoutTimeUnit = TimeUnit.SECONDS;
+            readTimeout = 15;
+            readTimeoutTimeUnit = TimeUnit.SECONDS;
         }
 
         public Builder<T> baseUrl(String baseUrl){
             ArgumentValidator.throwIfEmpty(baseUrl, "Base url");
-            mBaseUrl = baseUrl;
+            this.baseUrl = baseUrl;
             return this;
         }
 
         public Builder<T> apiClass(Class<T> clazz){
             ArgumentValidator.throwIfNull(clazz, "Api class");
-            mClass = clazz;
+            this.clazz = clazz;
             return this;
         }
 
         public Builder<T> accessToken(AccessToken accessToken){
             ArgumentValidator.throwIfNull(accessToken, "Access token");
-            mAccessToken = accessToken;
+            this.accessToken = accessToken;
             return this;
         }
 
         public Builder<T> enableLogging(){
-            mLoggingEnabled = true;
+            loggingEnabled = true;
             return this;
         }
 
         public Builder<T> readTimeout(long timeout, TimeUnit timeUnit){
-            mReadTimeout = timeout;
-            mReadTimeoutTimeUnit = timeUnit;
+            readTimeout = timeout;
+            readTimeoutTimeUnit = timeUnit;
             return this;
         }
 

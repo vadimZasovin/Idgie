@@ -1,8 +1,11 @@
 package com.appcraft.idgie.facebook;
 
+import com.appcraft.idgie.AccessToken;
 import com.appcraft.idgie.ApiCore;
 import com.appcraft.idgie.ApiManager;
 import com.appcraft.idgie.ApiRequestException;
+
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 
@@ -12,39 +15,54 @@ import retrofit2.Call;
 
 public class FacebookApiManager extends ApiManager{
 
-    private static volatile FacebookApiManager sInstance;
-    private final FacebookApi mApi;
+    private static volatile FacebookApiManager instance;
+    private final FacebookApi api;
 
     private FacebookApiManager(Builder builder) {
         super(builder);
         ApiCore.Builder<FacebookApi> apiBuilder = new ApiCore.Builder<>();
         apiBuilder.apiClass(FacebookApi.class)
-                .accessToken(mAccessToken)
+                .accessToken(accessToken)
                 .baseUrl(FacebookApi.BASE_URL)
-                .readTimeout(mReadTimeout, mReadTimeoutTimeUnit);
-        if(mEnableLogging){
+                .readTimeout(readTimeout, readTimeoutTimeUnit);
+        if(loggingEnabled){
             apiBuilder.enableLogging();
         }
         ApiCore<FacebookApi> apiCore = apiBuilder.build();
-        mApi = apiCore.api();
+        api = apiCore.api();
     }
 
     public static void setInstance(FacebookApiManager instance){
-        sInstance = instance;
+        FacebookApiManager.instance = instance;
     }
 
     public static FacebookApiManager getInstance(){
-        return sInstance;
+        return instance;
     }
 
     public FacebookProfile getProfile(String... fields) throws ApiRequestException{
-        String token = mAccessToken.token;
+        String token = accessToken.token;
         String fieldsParam = FacebookProfileFields.createSingleUrlParameter(fields);
-        Call<FacebookProfile> call = mApi.getProfile(token, fieldsParam);
+        Call<FacebookProfile> call = api.getProfile(token, fieldsParam);
         return executeCall(call);
     }
 
     public static final class Builder extends ApiManager.Builder<FacebookApiManager>{
+
+        @Override
+        public ApiManager.Builder<FacebookApiManager> accessToken(AccessToken accessToken) {
+            return super.accessToken(accessToken);
+        }
+
+        @Override
+        public ApiManager.Builder<FacebookApiManager> enableLogging() {
+            return super.enableLogging();
+        }
+
+        @Override
+        public ApiManager.Builder<FacebookApiManager> readTimeout(long timeout, TimeUnit timeUnit) {
+            return super.readTimeout(timeout, timeUnit);
+        }
 
         @Override
         public FacebookApiManager build() {

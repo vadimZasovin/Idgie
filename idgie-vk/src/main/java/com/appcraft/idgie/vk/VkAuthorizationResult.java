@@ -9,30 +9,30 @@ import com.appcraft.idgie.AuthorizationResult;
 
 public class VkAuthorizationResult implements AuthorizationResult {
 
-    private final AuthorizationResult mAuthorizationResult;
+    private final AuthorizationResult authorizationResult;
 
-    String mEmail;
-    String mUserId;
+    String email;
+    String userId;
 
     VkAuthorizationResult(AuthorizationResult authorizationResult){
-        mAuthorizationResult = authorizationResult;
+        this.authorizationResult = authorizationResult;
     }
 
     @Override
     public AccessToken getAccessToken() {
-        return mAuthorizationResult.getAccessToken();
+        return authorizationResult.getAccessToken();
     }
 
     @Override
     public boolean isAuthorized() {
-        return mAuthorizationResult.isAuthorized();
+        return authorizationResult.isAuthorized();
     }
 
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     public String getUserId() {
-        return mUserId;
+        return userId;
     }
 }

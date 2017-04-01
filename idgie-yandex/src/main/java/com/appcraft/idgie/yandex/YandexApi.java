@@ -1,7 +1,5 @@
 package com.appcraft.idgie.yandex;
 
-import com.appcraft.idgie.yandex.model.YandexProfile;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 

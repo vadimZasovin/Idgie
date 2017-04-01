@@ -16,40 +16,40 @@ public class DefaultRedirectUriParser implements RedirectUriParser {
     private static final String DEFAULT_TOKEN_TYPE = "Bearer";
     private static final long DEFAULT_EXPIRES_IN = Long.MAX_VALUE;
 
-    private final String mTokenParamName;
-    private final String mTypeParamName;
-    private final String mExpiresParamName;
+    private final String tokenParamName;
+    private final String typeParamName;
+    private final String expiresParamName;
 
-    private AuthorizationResultImpl mAuthorizationResult;
-    private AccessToken mAccessToken;
+    private AuthorizationResultImpl authorizationResult;
+    private AccessToken accessToken;
 
     public DefaultRedirectUriParser(@NonNull String tokenParamName,
                                     @Nullable String typeParamName,
                                     @Nullable String expiresParamName){
         ArgumentValidator.throwIfEmpty(tokenParamName, "Token param name");
-        mTokenParamName = tokenParamName;
-        mTypeParamName = typeParamName;
-        mExpiresParamName = expiresParamName;
+        this.tokenParamName = tokenParamName;
+        this.typeParamName = typeParamName;
+        this.expiresParamName = expiresParamName;
     }
 
     @NonNull
     @Override
     public AuthorizationResult parse(String redirectUri) {
-        mAuthorizationResult = new AuthorizationResultImpl();
-        if(setupTokenAndCreateIfNeeded(redirectUri)){
+        authorizationResult = new AuthorizationResultImpl();
+        if(setupToken(redirectUri)){
             setupTokenType(redirectUri);
             setupExpiresIn(redirectUri);
         }
-        return mAuthorizationResult;
+        return authorizationResult;
     }
 
-    private boolean setupTokenAndCreateIfNeeded(String redirectUri){
-        Pattern pattern = Pattern.compile(mTokenParamName + "=(.*?)(&|$)");
+    private boolean setupToken(String redirectUri){
+        Pattern pattern = Pattern.compile(tokenParamName + "=(.*?)(&|$)");
         Matcher matcher = pattern.matcher(redirectUri);
         if(matcher.find()){
-            mAccessToken = new AccessToken();
-            mAccessToken.token = matcher.group(1);
-            mAuthorizationResult.mAccessToken = mAccessToken;
+            accessToken = new AccessToken();
+            accessToken.token = matcher.group(1);
+            authorizationResult.accessToken = accessToken;
             return true;
         }
         return false;
@@ -57,31 +57,31 @@ public class DefaultRedirectUriParser implements RedirectUriParser {
 
     private void setupTokenType(String redirectUri){
         boolean useDefaultType = true;
-        if(!TextUtils.isEmpty(mTypeParamName)){
-            Pattern pattern = Pattern.compile(mTypeParamName + "=(.*?)(&|$)");
+        if(!TextUtils.isEmpty(typeParamName)){
+            Pattern pattern = Pattern.compile(typeParamName + "=(.*?)(&|$)");
             Matcher matcher = pattern.matcher(redirectUri);
             if(matcher.find()){
-                mAccessToken.type = matcher.group(1);
+                accessToken.type = matcher.group(1);
                 useDefaultType = false;
             }
         }
         if(useDefaultType){
-            mAccessToken.type = DEFAULT_TOKEN_TYPE;
+            accessToken.type = DEFAULT_TOKEN_TYPE;
         }
     }
 
     private void setupExpiresIn(String redirectUri){
         boolean useDefaultExpiresIn = true;
-        if(!TextUtils.isEmpty(mExpiresParamName)){
-            Pattern pattern = Pattern.compile(mExpiresParamName + "=(.*?)(&|$)");
+        if(!TextUtils.isEmpty(expiresParamName)){
+            Pattern pattern = Pattern.compile(expiresParamName + "=(.*?)(&|$)");
             Matcher matcher = pattern.matcher(redirectUri);
             if(matcher.find()){
-                mAccessToken.expiresIn = Long.parseLong(matcher.group(1));
+                accessToken.expiresIn = Long.parseLong(matcher.group(1));
                 useDefaultExpiresIn = false;
             }
         }
         if(useDefaultExpiresIn){
-            mAccessToken.expiresIn = DEFAULT_EXPIRES_IN;
+            accessToken.expiresIn = DEFAULT_EXPIRES_IN;
         }
     }
 }

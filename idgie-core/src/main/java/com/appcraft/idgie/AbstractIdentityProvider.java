@@ -15,6 +15,14 @@ import android.support.v4.app.Fragment;
 
 public abstract class AbstractIdentityProvider implements IdentityProvider {
 
+    protected final String authorizationUrl;
+    protected final String redirectUri;
+
+    protected AbstractIdentityProvider(String authorizationUrl, String redirectUri){
+        this.authorizationUrl = authorizationUrl;
+        this.redirectUri = redirectUri;
+    }
+
     @Override
     public void initiateAuthorizationFlow(@NonNull Activity activity, int requestCode) {
         Intent intent = createAuthorizationWebActivityIntent(activity);
@@ -37,7 +45,6 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
 
     @Override
     public void initiateAuthorizationFlow(@NonNull Context context, @NonNull CustomTabsIntent intent) {
-        String authorizationUrl = getAuthorizationUrl();
         intent.launchUrl(context, Uri.parse(authorizationUrl));
     }
 
@@ -49,7 +56,6 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
 
     @Override
     public boolean usesCustomRedirectUriScheme() {
-        String redirectUri = getRedirectUri();
         return usesCustomRedirectUriScheme(redirectUri);
     }
 
@@ -59,16 +65,8 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
         return !(scheme.equals("http") || scheme.equals("https"));
     }
 
-    @NonNull
-    protected abstract String getAuthorizationUrl();
-
-    @NonNull
-    protected abstract String getRedirectUri();
-
     private Intent createAuthorizationWebActivityIntent(Context context){
         Intent intent = new Intent(context, WebActivity.class);
-        String authorizationUrl = getAuthorizationUrl();
-        String redirectUri = getRedirectUri();
         intent.putExtra(WebActivity.EXTRA_URL, authorizationUrl);
         intent.putExtra(WebActivity.EXTRA_REDIRECT_URI, redirectUri);
         return intent;
@@ -80,11 +78,10 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
         if(intent != null){
             Uri uri = intent.getData();
             if(uri != null){
-                String redirectUri = uri.toString();
-                String sourceRedirectUri = getRedirectUri();
-                if(redirectUri.startsWith(sourceRedirectUri)){
+                String filledRedirectUri = uri.toString();
+                if(filledRedirectUri.startsWith(redirectUri)){
                     RedirectUriParser redirectUriParser = getRedirectUriParser();
-                    return redirectUriParser.parse(redirectUri);
+                    return redirectUriParser.parse(filledRedirectUri);
                 }
             }
         }
@@ -96,11 +93,11 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
 
     protected static abstract class AbstractBuilder<T extends IdentityProvider> implements Builder<T> {
 
-        private final StringBuilder mUrlBuilder;
-        private boolean mFirstUrlParameter = true;
+        private final StringBuilder urlBuilder;
+        private boolean firstUrlParameter = true;
 
         protected AbstractBuilder(){
-            mUrlBuilder = new StringBuilder();
+            urlBuilder = new StringBuilder();
         }
 
         protected final void appendUrlParameter(String name, String value){
@@ -109,24 +106,24 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
         }
 
         private void appendUrlParameterPrefix(){
-            if(mFirstUrlParameter){
-                mUrlBuilder.append("?");
-                mFirstUrlParameter = false;
+            if(firstUrlParameter){
+                urlBuilder.append("?");
+                firstUrlParameter = false;
             }else {
-                mUrlBuilder.append("&");
+                urlBuilder.append("&");
             }
         }
 
         private void appendUrlParameterInternal(String name, String value){
-            mUrlBuilder.append(name).append("=").append(value);
+            urlBuilder.append(name).append("=").append(value);
         }
 
-        protected final void appendValue(CharSequence value){
-            mUrlBuilder.append(value);
+        protected final void appendValue(String value){
+            urlBuilder.append(value);
         }
 
         protected final String getUrl(){
-            return mUrlBuilder.toString();
+            return urlBuilder.toString();
         }
     }
 }

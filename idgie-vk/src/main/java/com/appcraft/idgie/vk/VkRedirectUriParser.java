@@ -19,7 +19,7 @@ class VkRedirectUriParser extends DefaultRedirectUriParser {
     private static final String USER_ID_PARAM_NAME = "user_id";
     private static final String EMAIL_PARAM_NAME = "email";
 
-    private VkAuthorizationResult mAuthorizationResult;
+    private VkAuthorizationResult authorizationResult;
 
     VkRedirectUriParser() {
         super(TOKEN_PARAM_NAME, null, EXPIRES_IN_PARAM_NAME);
@@ -29,19 +29,19 @@ class VkRedirectUriParser extends DefaultRedirectUriParser {
     @Override
     public AuthorizationResult parse(String redirectUri) {
         AuthorizationResult result = super.parse(redirectUri);
-        mAuthorizationResult = new VkAuthorizationResult(result);
-        if(mAuthorizationResult.isAuthorized()){
+        authorizationResult = new VkAuthorizationResult(result);
+        if(authorizationResult.isAuthorized()){
             setupEmail(redirectUri);
             setupUserId(redirectUri);
         }
-        return mAuthorizationResult;
+        return authorizationResult;
     }
 
     private void setupEmail(String redirectUri){
         Pattern pattern = Pattern.compile(EMAIL_PARAM_NAME + "=(.*?)(&|$)");
         Matcher matcher = pattern.matcher(redirectUri);
         if(matcher.find()){
-            mAuthorizationResult.mEmail = matcher.group(1);
+            authorizationResult.email = matcher.group(1);
         }
     }
 
@@ -49,7 +49,7 @@ class VkRedirectUriParser extends DefaultRedirectUriParser {
         Pattern pattern = Pattern.compile(USER_ID_PARAM_NAME + "=(.*?)(&|$)");
         Matcher matcher = pattern.matcher(redirectUri);
         if(matcher.find()){
-            mAuthorizationResult.mUserId = matcher.group(1);
+            authorizationResult.userId = matcher.group(1);
         }
     }
 }

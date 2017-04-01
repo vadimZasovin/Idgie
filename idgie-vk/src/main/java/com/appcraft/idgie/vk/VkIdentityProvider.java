@@ -16,12 +16,8 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
 
     public static final String NAME = "Vk";
 
-    private final String mAuthorizationUrl;
-    private final String mRedirectUri;
-
     private VkIdentityProvider(String authorizationUrl, String redirectUri){
-        mAuthorizationUrl = authorizationUrl;
-        mRedirectUri = redirectUri;
+        super(authorizationUrl, redirectUri);
     }
 
     public static ApiVersionSetter startBuilding(){
@@ -32,18 +28,6 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
     @Override
     public String getName() {
         return NAME;
-    }
-
-    @NonNull
-    @Override
-    protected String getAuthorizationUrl() {
-        return mAuthorizationUrl;
-    }
-
-    @NonNull
-    @Override
-    protected String getRedirectUri() {
-        return mRedirectUri;
     }
 
     @NonNull
@@ -71,7 +55,7 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
         private static final String DISPLAY_MODE = "mobile";
         private static final String RESPONSE_TYPE = "token";
 
-        private String mRedirectUri;
+        private String redirectUri;
 
         private InternalBuilder(){
             appendValue(BASE_AUTHORIZATION_URL);
@@ -125,7 +109,7 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
         public Finish<VkIdentityProvider> redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
             appendUrlParameter("redirect_uri", redirectUri);
-            mRedirectUri = redirectUri;
+            this.redirectUri = redirectUri;
             return this;
         }
 
@@ -138,7 +122,7 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
 
         @Override
         public VkIdentityProvider build() {
-            return new VkIdentityProvider(getUrl(), mRedirectUri);
+            return new VkIdentityProvider(getUrl(), redirectUri);
         }
     }
 }

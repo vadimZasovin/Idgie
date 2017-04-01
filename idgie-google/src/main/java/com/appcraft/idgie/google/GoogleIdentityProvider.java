@@ -16,12 +16,8 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
 
     public static final String NAME = "Google";
 
-    private final String mAuthorizationUrl;
-    private final String mRedirectUri;
-
     private GoogleIdentityProvider(String authorizationUrl, String redirectUri){
-        mAuthorizationUrl = authorizationUrl;
-        mRedirectUri = redirectUri;
+        super(authorizationUrl, redirectUri);
     }
 
     public static PermissionsSetter startBuilding(){
@@ -32,18 +28,6 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
     @Override
     public String getName() {
         return NAME;
-    }
-
-    @NonNull
-    @Override
-    protected String getAuthorizationUrl() {
-        return mAuthorizationUrl;
-    }
-
-    @NonNull
-    @Override
-    protected String getRedirectUri() {
-        return mRedirectUri;
     }
 
     @NonNull
@@ -60,7 +44,7 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
                 "https://accounts.google.com/o/oauth2/v2/auth";
         private static final String RESPONSE_TYPE = "token";
 
-        private String mRedirectUri;
+        private String redirectUri;
 
         private InternalBuilder(){
             appendValue(BASE_AUTHORIZATION_URL);
@@ -104,13 +88,13 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
         public Finish<GoogleIdentityProvider> redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
             appendUrlParameter("redirect_uri", redirectUri);
-            mRedirectUri = redirectUri;
+            this.redirectUri = redirectUri;
             return this;
         }
 
         @Override
         public GoogleIdentityProvider build() {
-            return new GoogleIdentityProvider(getUrl(), mRedirectUri);
+            return new GoogleIdentityProvider(getUrl(), redirectUri);
         }
     }
 }

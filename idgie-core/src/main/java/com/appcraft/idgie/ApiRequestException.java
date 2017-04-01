@@ -8,18 +8,18 @@ import java.io.IOException;
 
 public class ApiRequestException extends IOException {
 
-    private final int mErrorCode;
+    private final int errorCode;
 
-    ApiRequestException(Throwable cause) {
+    public ApiRequestException(Throwable cause) {
         super(cause);
         if(!(cause instanceof IOException)){
             throw new IllegalArgumentException("The cause must be an IOException");
         }
-        mErrorCode = 0;
+        errorCode = 0;
     }
 
-    ApiRequestException(int errorCode){
-        mErrorCode = errorCode;
+    public ApiRequestException(int errorCode){
+        this.errorCode = errorCode;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class ApiRequestException extends IOException {
     }
 
     public int getErrorCode(){
-        return mErrorCode;
+        return errorCode;
     }
 }
