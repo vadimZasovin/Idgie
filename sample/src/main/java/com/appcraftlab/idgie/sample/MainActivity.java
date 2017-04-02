@@ -5,20 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.appcraft.idgie.AccessToken;
-import com.appcraft.idgie.ApiRequestException;
 import com.appcraft.idgie.AuthorizationResult;
 import com.appcraft.idgie.IdentityProvider;
 import com.appcraft.idgie.facebook.FacebookApi;
-import com.appcraft.idgie.facebook.FacebookApiManager;
 import com.appcraft.idgie.facebook.FacebookIdentityProvider;
 import com.appcraft.idgie.facebook.FacebookPermissions;
-import com.appcraft.idgie.facebook.FacebookProfile;
-import com.appcraft.idgie.facebook.FacebookProfileFields;
 import com.appcraft.idgie.google.GoogleIdentityProvider;
+import com.appcraft.idgie.vk.VkAuthorizationResult;
 import com.appcraft.idgie.vk.VkIdentityProvider;
 import com.appcraft.idgie.yandex.YandexIdentityProvider;
 
@@ -26,7 +24,8 @@ import com.appcraft.idgie.yandex.YandexIdentityProvider;
  * Created by Admin on 29.03.2017.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity
+        implements View.OnClickListener, BaseAsyncTask.Callbacks{
 
     private static final int RC_AUTHORIZE = 1;
 
@@ -126,25 +125,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadProfileInfo(AuthorizationResult result){
         if(result != null && result.isAuthorized()){
-            AccessToken accessToken = result.getAccessToken();
-            loadProfileInfo(accessToken);
+            loadProfileInfoInternal(result);
         }
     }
 
-    private void loadProfileInfo(final AccessToken accessToken){
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    FacebookProfile profile = new FacebookApiManager.Builder()
-                            .accessToken(accessToken)
-                            .enableLogging()
-                            .build().getProfile(FacebookProfileFields.NAME);
-                    Log.d("MARAMBRA", profile.getName());
-                } catch (ApiRequestException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+    private void loadProfileInfoInternal(AuthorizationResult result){
+        String name = identityProvider.getName();
+        LoadProfileInfoAsyncTask asyncTask = new LoadProfileInfoAsyncTask(this, 0, name);
+        if(VkIdentityProvider.NAME.equals(name)){
+            VkAuthorizationResult vkResult = (VkAuthorizationResult) result;
+            String vkEmail = vkResult.getEmail();
+            asyncTask.setVkEmail(vkEmail);
+        }
+        AccessToken accessToken = result.getAccessToken();
+        asyncTask.execute(accessToken);
+    }
+
+    @Override
+    public void onTaskStarted(int taskId) {}
+
+    @Override
+    public void onTaskFinished(int taskId, Object result) {
+        BaseProfile profile = (BaseProfile) result;
+        String name = profile.getName();
+        String email = profile.getEmail();
+        String message = getString(R.string.profile_info, name, email);
+        showToast(message, true);
+    }
+
+    private void showToast(String message, boolean lengthLong){
+        int length = lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+        Toast.makeText(this, message, length).show();
+    }
+
+    @Override
+    public void onTaskError(int taskId, String errorMessage) {
+        if(!TextUtils.isEmpty(errorMessage)){
+            showToast(errorMessage, false);
+        }
     }
 }
