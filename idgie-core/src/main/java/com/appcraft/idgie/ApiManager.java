@@ -26,20 +26,17 @@ public abstract class ApiManager {
 
     public static abstract class Builder<T extends ApiManager>{
 
-        private AccessToken accessToken;
+        private final AccessToken accessToken;
         private boolean loggingEnabled;
         private long readTimeout;
         private TimeUnit readTimeoutTimeUnit;
 
-        public Builder(){
+        public Builder(AccessToken accessToken){
+            ArgumentValidator.throwIfNull(accessToken, "Access token");
+            this.accessToken = accessToken;
             // defaults
             readTimeout = 15;
             readTimeoutTimeUnit = TimeUnit.SECONDS;
-        }
-
-        public Builder<T> accessToken(AccessToken accessToken){
-            this.accessToken = accessToken;
-            return this;
         }
 
         public Builder<T> enableLogging(){

@@ -49,9 +49,8 @@ public class FacebookApiManager extends ApiManager{
 
     public static final class Builder extends ApiManager.Builder<FacebookApiManager>{
 
-        @Override
-        public ApiManager.Builder<FacebookApiManager> accessToken(AccessToken accessToken) {
-            return super.accessToken(accessToken);
+        public Builder(AccessToken accessToken) {
+            super(accessToken);
         }
 
         @Override

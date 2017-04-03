@@ -47,9 +47,8 @@ public class YandexApiManager extends ApiManager {
 
     public static final class Builder extends ApiManager.Builder<YandexApiManager>{
 
-        @Override
-        public ApiManager.Builder<YandexApiManager> accessToken(AccessToken accessToken) {
-            return super.accessToken(accessToken);
+        public Builder(AccessToken accessToken) {
+            super(accessToken);
         }
 
         @Override

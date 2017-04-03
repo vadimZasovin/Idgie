@@ -47,9 +47,8 @@ public class GoogleApiManager extends ApiManager {
 
     public static final class Builder extends ApiManager.Builder<GoogleApiManager>{
 
-        @Override
-        public ApiManager.Builder<GoogleApiManager> accessToken(AccessToken accessToken) {
-            return super.accessToken(accessToken);
+        public Builder(AccessToken accessToken) {
+            super(accessToken);
         }
 
         @Override

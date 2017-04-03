@@ -64,8 +64,7 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
         String[] fields = new String[]{
                 FacebookProfileFields.NAME,
                 FacebookProfileFields.EMAIL};
-        FacebookProfile facebookProfile = new FacebookApiManager.Builder()
-                .accessToken(accessToken)
+        FacebookProfile facebookProfile = new FacebookApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile(fields);
         String name = facebookProfile.getName();
@@ -74,8 +73,7 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
     }
 
     private BaseProfile loadGoogleProfile(AccessToken accessToken) throws ApiRequestException{
-        GoogleProfile googleProfile = new GoogleApiManager.Builder()
-                .accessToken(accessToken)
+        GoogleProfile googleProfile = new GoogleApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile();
         String name = googleProfile.getDisplayName();
@@ -97,8 +95,7 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
     }
 
     private BaseProfile loadVkProfile(AccessToken accessToken) throws ApiRequestException{
-        VkProfile vkProfile = new VkApiManager.Builder()
-                .accessToken(accessToken)
+        VkProfile vkProfile = new VkApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile();
         String firstName = vkProfile.getFirstName();
@@ -108,8 +105,7 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
     }
 
     private BaseProfile loadYandexProfile(AccessToken accessToken) throws ApiRequestException{
-        YandexProfile yandexProfile = new YandexApiManager.Builder()
-                .accessToken(accessToken)
+        YandexProfile yandexProfile = new YandexApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile();
         String name = yandexProfile.getDisplayName();
