@@ -31,7 +31,7 @@ public class ApiRequestException extends IOException {
         errorCode = 0;
     }
 
-    public ApiRequestException(int errorCode){
+    ApiRequestException(int errorCode){
         this.errorCode = errorCode;
     }
 
