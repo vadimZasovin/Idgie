@@ -37,7 +37,7 @@ public abstract class ApiManager {
         readTimeoutTimeUnit = builder.readTimeoutTimeUnit;
     }
 
-    protected static abstract class Builder<T extends ApiManager>{
+    public static abstract class Builder<T extends ApiManager>{
 
         private final AccessToken accessToken;
         private boolean loggingEnabled;

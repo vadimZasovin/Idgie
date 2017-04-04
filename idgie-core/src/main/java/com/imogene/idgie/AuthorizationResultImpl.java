@@ -23,6 +23,8 @@ public class AuthorizationResultImpl implements AuthorizationResult {
 
     AccessToken accessToken;
 
+    AuthorizationResultImpl(){}
+
     @Override
     public AccessToken getAccessToken() {
         return accessToken;
