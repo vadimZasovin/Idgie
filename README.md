@@ -84,12 +84,12 @@ allprojects {
 }
 ```
 2. Edit your app level build.gradle file. Add dependencies for the modules you want to use in your app. Possible artifacts include:
-* ```compile 'com.appcraftlab:idgie-facebook:{version}'```
-* ```compile 'com.appcraftlab:idgie-google:{version}'```
-* ```compile 'com.appcraftlab:idgie-vk:{version}'```
-* ```compile 'com.appcraftlab:idgie-yandex:{version}'```
+* ```compile 'com.imogene:idgie-facebook:{version}'```
+* ```compile 'com.imogene:idgie-google:{version}'```
+* ```compile 'com.imogene:idgie-vk:{version}'```
+* ```compile 'com.imogene:idgie-yandex:{version}'```
 
-The latest version of the library is **1.0.6**. Each module has the same version.
+The latest version of the library is **1.1.0**. Each module has the same version.
 
 ## Contributing
 One of the distinguishing features of this library is that it can expand almost infinitely. By implementing new identity providers and by adding new features to api managers. So, welcome to contribute!
