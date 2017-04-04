@@ -21,4 +21,6 @@ public final class GooglePermissions {
 
     public static final String EMAIL = "email";
     public static final String PROFILE = "profile";
+
+    private GooglePermissions(){}
 }

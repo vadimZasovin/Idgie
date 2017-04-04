@@ -21,4 +21,6 @@ public final class FacebookPermissions {
 
     public static final String PUBLIC_PROFILE = "public_profile";
     public static final String EMAIL = "email";
+
+    private FacebookPermissions(){}
 }

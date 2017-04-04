@@ -20,4 +20,6 @@ package com.imogene.idgie.vk;
 public final class VkPermissions {
 
     public static final String EMAIL = "email";
+
+    private VkPermissions(){}
 }
