@@ -29,6 +29,7 @@ import com.imogene.idgie.facebook.FacebookApi;
 import com.imogene.idgie.facebook.FacebookIdentityProvider;
 import com.imogene.idgie.facebook.FacebookPermissions;
 import com.imogene.idgie.google.GoogleIdentityProvider;
+import com.imogene.idgie.google.GooglePermissions;
 import com.imogene.idgie.vk.VkAuthorizationResult;
 import com.imogene.idgie.vk.VkIdentityProvider;
 import com.imogene.idgie.yandex.YandexIdentityProvider;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity
                 identityProvider = createFacebookIdentityProvider();
                 break;
             case GoogleIdentityProvider.NAME:
+                identityProvider = createGoogleIdentityProvider();
                 break;
             case VkIdentityProvider.NAME:
                 break;
@@ -92,12 +94,22 @@ public class MainActivity extends AppCompatActivity
     }
 
     private IdentityProvider createFacebookIdentityProvider(){
-        String clientId = getString(R.string.facebook_app_id);
+        String clientId = getString(R.string.facebook_client_id);
         String redirectUri = getString(R.string.facebook_redirect_uri);
         return FacebookIdentityProvider.startBuilding()
                 .apiVersion(FacebookApi.DEFAULT_API_VERSION)
                 .permissions(FacebookPermissions.EMAIL, FacebookPermissions.PUBLIC_PROFILE)
                 .clientId(clientId)
+                .redirectUri(redirectUri)
+                .build();
+    }
+
+    private IdentityProvider createGoogleIdentityProvider(){
+        String clientId = getString(R.string.google_client_id);
+        String redirectUri = getString(R.string.google_redirect_uri);
+        return GoogleIdentityProvider.startBuilding()
+                .permissions(GooglePermissions.EMAIL, GooglePermissions.PROFILE)
+                .clientId("522342349223-7jnqdo46uc2ev8q9f2l5q422b9iba0np.apps.googleusercontent.com")
                 .redirectUri(redirectUri)
                 .build();
     }

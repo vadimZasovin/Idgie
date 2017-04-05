@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">382233058836891</string>
+    <string name="facebook_client_id">382233058836891</string>
     <string name="facebook_redirect_uri">fb382233058836891://authorize</string>
     <string name="facebook_protocol_scheme">fb382233058836891</string>
+    <string name="google_client_id">
+        522342349223-a4pjk3ok0o6ivubcms3o51fqd8b954eq.apps.googleusercontent.com
+    </string>
+    <string name="google_redirect_uri">http://idgie.com</string>
 </resources>
