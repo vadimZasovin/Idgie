@@ -3,7 +3,7 @@
 Idgie - is an android OAuth client library. It consists of several modules for different identity providers (social networks) such as Facebook, 
 Google and so on.
 The complete list of supported identity providers looks like this now:
-1. [Facebook](http://github.com)
+1. [Facebook](https://github.com/vadimZasovin/Idgie/wiki/Facebook-integration)
 2. [Google](http://github.com)
 3. [Vkontakte](http://github.com)
 4. [Yandex](http://github.com)
