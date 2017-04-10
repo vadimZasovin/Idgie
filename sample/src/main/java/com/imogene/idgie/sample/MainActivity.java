@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         String redirectUri = getString(R.string.google_redirect_uri);
         return GoogleIdentityProvider.startBuilding()
                 .permissions(GooglePermissions.EMAIL, GooglePermissions.PROFILE)
-                .clientId("522342349223-7jnqdo46uc2ev8q9f2l5q422b9iba0np.apps.googleusercontent.com")
+                .clientId(clientId)
                 .redirectUri(redirectUri)
                 .build();
     }
