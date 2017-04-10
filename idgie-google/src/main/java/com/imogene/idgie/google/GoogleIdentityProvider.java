@@ -14,7 +14,6 @@ limitations under the License.*/
 package com.imogene.idgie.google;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.imogene.idgie.AbstractIdentityProvider;
 import com.imogene.idgie.ArgumentValidator;
@@ -60,7 +59,7 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
         private String redirectUri;
 
         private InternalBuilder(){
-            appendValue(BASE_AUTHORIZATION_URL);
+            super(BASE_AUTHORIZATION_URL);
             appendUrlParameter("response_type", RESPONSE_TYPE);
         }
 
@@ -73,28 +72,8 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
 
         @Override
         public ClientIdSetter permissions(String... permissions) {
-            String scopesString = null;
-            if(permissions != null && permissions.length > 0){
-                scopesString = createPermissionsUrlParameterValue(permissions);
-            }
-            if(TextUtils.isEmpty(scopesString)){
-                scopesString = GooglePermissions.PROFILE;
-            }
-            appendUrlParameter("scope", scopesString);
+            appendUrlParameter("scope", ' ', permissions);
             return this;
-        }
-
-        private String createPermissionsUrlParameterValue(String... permissions){
-            StringBuilder stringBuilder = new StringBuilder();
-            for(String permission : permissions){
-                if(!TextUtils.isEmpty(permission)){
-                    if(stringBuilder.length() > 0){
-                        stringBuilder.append(' ');
-                    }
-                    stringBuilder.append(permission);
-                }
-            }
-            return stringBuilder.toString();
         }
 
         @Override

@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven_oss'
+    bintrayName = 'idgie-instagram'
+
+    publishedGroupId = 'com.imogene'
+    libraryName = 'Idgie'
+    artifact = 'idgie-instagram'
+
+    libraryDescription = 'Android OAuth client library (Instagram module)'
+
+    siteUrl = 'https://github.com/vadimZasovin/Idgie'
+    gitUrl = 'https://github.com/vadimZasovin/Idgie.git'
+
+    libraryVersion = '1.1.0'
+
+    developerId = 'vadimzasovin'
+    developerName = 'Vadim Zasovin'
+    developerEmail = 'vzasovin@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile project(':idgie-core')
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://gist.githubusercontent.com/vadimZasovin/652557d8a2e3795957cfb9eaed70e489/raw/c36624273500402466d8b142b6bcdca60728a783/bintray.gradle'

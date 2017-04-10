@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 /**
  * Created by Admin on 07.12.2016.
@@ -109,8 +110,9 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
         private final StringBuilder urlBuilder;
         private boolean firstUrlParameter = true;
 
-        protected AbstractBuilder(){
+        protected AbstractBuilder(String baseUrl){
             urlBuilder = new StringBuilder();
+            appendValue(baseUrl);
         }
 
         protected final void appendUrlParameter(String name, String value){
@@ -129,6 +131,28 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
 
         private void appendUrlParameterInternal(String name, String value){
             urlBuilder.append(name).append("=").append(value);
+        }
+
+        protected final void appendUrlParameter(String name, char delimiter, String... parts){
+            if(parts != null && parts.length > 0){
+                String parameter = createUrlParameter(delimiter, parts);
+                if(!TextUtils.isEmpty(parameter)){
+                    appendUrlParameter(name, parameter);
+                }
+            }
+        }
+
+        private static String createUrlParameter(char delimiter, String... parts){
+            StringBuilder stringBuilder = new StringBuilder();
+            for(String part : parts){
+                if(!TextUtils.isEmpty(part)){
+                    if(stringBuilder.length() > 0){
+                        stringBuilder.append(delimiter);
+                    }
+                    stringBuilder.append(part);
+                }
+            }
+            return stringBuilder.toString();
         }
 
         protected final void appendValue(String value){

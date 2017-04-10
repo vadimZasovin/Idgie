@@ -70,7 +70,7 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
         private String redirectUri;
 
         private InternalBuilder(){
-            appendValue(BASE_AUTHORIZATION_URL);
+            super(BASE_AUTHORIZATION_URL);
             appendUrlParameter("response_type", RESPONSE_TYPE);
             appendUrlParameter("display", DISPLAY_MODE);
             appendUrlParameter("force_confirm", FORCE_CONFIRM);

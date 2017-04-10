@@ -65,7 +65,7 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
         private String redirectUri;
 
         private InternalBuilder(){
-            appendValue(BASE_AUTHORIZATION_URL);
+            super(BASE_AUTHORIZATION_URL);
         }
 
         @Override
@@ -87,27 +87,8 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
 
         @Override
         public ClientIdSetter permissions(String... permissions) {
-            String scopesString;
-            if(permissions != null && permissions.length > 0){
-                scopesString = createPermissionsUrlParameterValue(permissions);
-            }else {
-                scopesString = FacebookPermissions.PUBLIC_PROFILE;
-            }
-            appendUrlParameter("scope", scopesString);
+            appendUrlParameter("scope", ',', permissions);
             return this;
-        }
-
-        private String createPermissionsUrlParameterValue(String... permissions){
-            StringBuilder stringBuilder = new StringBuilder();
-            for(String permission : permissions){
-                if(!TextUtils.isEmpty(permission)){
-                    if(stringBuilder.length() > 0){
-                        stringBuilder.append(',');
-                    }
-                    stringBuilder.append(permission);
-                }
-            }
-            return stringBuilder.toString();
         }
 
         @Override
