@@ -23,6 +23,9 @@ import com.imogene.idgie.google.GoogleApiManager;
 import com.imogene.idgie.google.GoogleEmail;
 import com.imogene.idgie.google.GoogleIdentityProvider;
 import com.imogene.idgie.google.GoogleProfile;
+import com.imogene.idgie.instagram.InstagramApiManager;
+import com.imogene.idgie.instagram.InstagramIdentityProvider;
+import com.imogene.idgie.instagram.InstagramProfile;
 import com.imogene.idgie.vk.VkApiManager;
 import com.imogene.idgie.vk.VkIdentityProvider;
 import com.imogene.idgie.vk.VkProfile;
@@ -66,6 +69,8 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
                 return loadFacebookProfile(accessToken);
             case GoogleIdentityProvider.NAME:
                 return loadGoogleProfile(accessToken);
+            case InstagramIdentityProvider.NAME:
+                return loadInstagramProfile(accessToken);
             case VkIdentityProvider.NAME:
                 return loadVkProfile(accessToken);
             default:
@@ -105,6 +110,15 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
             return emails[0].getValue();
         }
         return null;
+    }
+
+    private BaseProfile loadInstagramProfile(AccessToken accessToken) throws ApiRequestException{
+        InstagramProfile profile = new InstagramApiManager.Builder(accessToken)
+                .enableLogging()
+                .build().getProfile();
+        String name = profile.getFullName();
+        String email = profile.getWebsite();
+        return new BaseProfile(name, email);
     }
 
     private BaseProfile loadVkProfile(AccessToken accessToken) throws ApiRequestException{

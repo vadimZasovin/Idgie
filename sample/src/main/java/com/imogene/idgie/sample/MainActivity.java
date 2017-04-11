@@ -30,6 +30,8 @@ import com.imogene.idgie.facebook.FacebookIdentityProvider;
 import com.imogene.idgie.facebook.FacebookPermissions;
 import com.imogene.idgie.google.GoogleIdentityProvider;
 import com.imogene.idgie.google.GooglePermissions;
+import com.imogene.idgie.instagram.InstagramIdentityProvider;
+import com.imogene.idgie.instagram.InstagramPermissions;
 import com.imogene.idgie.vk.VkAuthorizationResult;
 import com.imogene.idgie.vk.VkIdentityProvider;
 import com.imogene.idgie.yandex.YandexIdentityProvider;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity
 
         findViewById(R.id.facebookButton).setOnClickListener(this);
         findViewById(R.id.googleButton).setOnClickListener(this);
+        findViewById(R.id.instagramButton).setOnClickListener(this);
         findViewById(R.id.vkButton).setOnClickListener(this);
         findViewById(R.id.yandexButton).setOnClickListener(this);
     }
@@ -66,6 +69,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.googleButton:
                 name = GoogleIdentityProvider.NAME;
+                break;
+            case R.id.instagramButton:
+                name = InstagramIdentityProvider.NAME;
                 break;
             case R.id.vkButton:
                 name = VkIdentityProvider.NAME;
@@ -84,6 +90,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case GoogleIdentityProvider.NAME:
                 identityProvider = createGoogleIdentityProvider();
+                break;
+            case InstagramIdentityProvider.NAME:
+                identityProvider = createInstagramIdentityProvider();
                 break;
             case VkIdentityProvider.NAME:
                 break;
@@ -109,6 +118,16 @@ public class MainActivity extends AppCompatActivity
         String redirectUri = getString(R.string.google_redirect_uri);
         return GoogleIdentityProvider.startBuilding()
                 .permissions(GooglePermissions.EMAIL, GooglePermissions.PROFILE)
+                .clientId(clientId)
+                .redirectUri(redirectUri)
+                .build();
+    }
+
+    private IdentityProvider createInstagramIdentityProvider(){
+        String clientId = getString(R.string.instagram_client_id);
+        String redirectUri = getString(R.string.instagram_redirect_uri);
+        return InstagramIdentityProvider.startBuilding()
+                .permissions(InstagramPermissions.BASIC)
                 .clientId(clientId)
                 .redirectUri(redirectUri)
                 .build();

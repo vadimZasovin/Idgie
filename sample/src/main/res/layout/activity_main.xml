@@ -24,6 +24,15 @@
         android:text="@string/google"/>
 
     <Button
+        android:id="@+id/instagramButton"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorInstagram"
+        android:textColor="@android:color/white"
+        android:text="@string/instagram"/>
+
+    <Button
         android:id="@+id/vkButton"
         android:layout_width="250dp"
         android:layout_height="48dp"

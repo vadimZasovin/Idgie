@@ -27,4 +27,5 @@ dependencies {
     compile project(':idgie-google')
     compile project(':idgie-vk')
     compile project(':idgie-yandex')
+    compile project(':idgie-instagram')
 }

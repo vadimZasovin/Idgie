@@ -7,4 +7,6 @@
         522342349223-a4pjk3ok0o6ivubcms3o51fqd8b954eq.apps.googleusercontent.com
     </string>
     <string name="google_redirect_uri">http://idgie.com</string>
+    <string name="instagram_client_id">b45cea893b614b6192a9c90e770b7ad4</string>
+    <string name="instagram_redirect_uri">https://idgie.com/</string>
 </resources>

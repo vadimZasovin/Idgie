@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class InstagramProfile {
 
     @SerializedName("id")
-    private int id;
+    private long id;
 
     @SerializedName("username")
     private String userName;
@@ -31,7 +31,7 @@ public class InstagramProfile {
 
     private InstagramProfile(){}
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
