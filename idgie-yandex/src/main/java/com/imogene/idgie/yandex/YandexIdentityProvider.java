@@ -55,12 +55,13 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
 
     public interface DeviceNameSetter{
 
-        ClientIdSetter deviceName(@NonNull String deviceName);
+        ClientIdSetter<Finish<YandexIdentityProvider>, YandexIdentityProvider>
+        deviceName(@NonNull String deviceName);
     }
 
     private static class InternalBuilder
-            extends AbstractBuilder<YandexIdentityProvider>
-            implements DeviceIdSetter, DeviceNameSetter {
+            extends AbstractBuilder<Finish<YandexIdentityProvider>, YandexIdentityProvider>
+            implements DeviceIdSetter, DeviceNameSetter, Finish<YandexIdentityProvider> {
 
         private static final String BASE_AUTHORIZATION_URL = "https://oauth.yandex.ru/authorize";
         private static final String RESPONSE_TYPE = "token";
@@ -77,13 +78,6 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
         }
 
         @Override
-        public RedirectUriSetter<YandexIdentityProvider> clientId(@NonNull String clientId) {
-            ArgumentValidator.throwIfEmpty(clientId, "Client id");
-            appendUrlParameter("client_id", clientId);
-            return this;
-        }
-
-        @Override
         public DeviceNameSetter deviceId(@NonNull String deviceId) {
             ArgumentValidator.throwIfEmpty(deviceId, "Device id");
             appendUrlParameter("device_id", deviceId);
@@ -91,14 +85,21 @@ public class YandexIdentityProvider extends AbstractIdentityProvider {
         }
 
         @Override
-        public ClientIdSetter deviceName(@NonNull String deviceName) {
+        public InternalBuilder deviceName(@NonNull String deviceName) {
             ArgumentValidator.throwIfEmpty(deviceName, "Device name");
             appendUrlParameter("device_name", deviceName);
             return this;
         }
 
         @Override
-        public Finish<YandexIdentityProvider> redirectUri(@NonNull String redirectUri) {
+        public InternalBuilder clientId(@NonNull String clientId) {
+            ArgumentValidator.throwIfEmpty(clientId, "Client id");
+            appendUrlParameter("client_id", clientId);
+            return this;
+        }
+
+        @Override
+        public InternalBuilder redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
             this.redirectUri = redirectUri;
             return this;

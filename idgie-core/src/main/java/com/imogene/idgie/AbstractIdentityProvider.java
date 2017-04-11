@@ -105,7 +105,9 @@ public abstract class AbstractIdentityProvider implements IdentityProvider {
     @NonNull
     protected abstract RedirectUriParser getRedirectUriParser();
 
-    protected static abstract class AbstractBuilder<T extends IdentityProvider> implements Builder<T> {
+    protected static abstract class AbstractBuilder
+            <F extends Finish<IP>, IP extends IdentityProvider>
+            implements Builder<F, IP> {
 
         private final StringBuilder urlBuilder;
         private boolean firstUrlParameter = true;

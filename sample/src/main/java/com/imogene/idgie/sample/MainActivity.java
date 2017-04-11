@@ -34,6 +34,7 @@ import com.imogene.idgie.instagram.InstagramIdentityProvider;
 import com.imogene.idgie.instagram.InstagramPermissions;
 import com.imogene.idgie.vk.VkAuthorizationResult;
 import com.imogene.idgie.vk.VkIdentityProvider;
+import com.imogene.idgie.vk.VkPermissions;
 import com.imogene.idgie.yandex.YandexIdentityProvider;
 
 /**
@@ -95,8 +96,10 @@ public class MainActivity extends AppCompatActivity
                 identityProvider = createInstagramIdentityProvider();
                 break;
             case VkIdentityProvider.NAME:
+                identityProvider = createVkIdentityProvider();
                 break;
             case YandexIdentityProvider.NAME:
+                identityProvider = createYandexIdentityProvider();
                 break;
         }
         authorize();
@@ -106,10 +109,10 @@ public class MainActivity extends AppCompatActivity
         String clientId = getString(R.string.facebook_client_id);
         String redirectUri = getString(R.string.facebook_redirect_uri);
         return FacebookIdentityProvider.startBuilding()
-                .apiVersion(FacebookApi.DEFAULT_API_VERSION)
-                .permissions(FacebookPermissions.EMAIL, FacebookPermissions.PUBLIC_PROFILE)
                 .clientId(clientId)
                 .redirectUri(redirectUri)
+                .apiVersion(FacebookApi.DEFAULT_API_VERSION)
+                .permissions(FacebookPermissions.EMAIL, FacebookPermissions.PUBLIC_PROFILE)
                 .build();
     }
 
@@ -117,9 +120,9 @@ public class MainActivity extends AppCompatActivity
         String clientId = getString(R.string.google_client_id);
         String redirectUri = getString(R.string.google_redirect_uri);
         return GoogleIdentityProvider.startBuilding()
-                .permissions(GooglePermissions.EMAIL, GooglePermissions.PROFILE)
                 .clientId(clientId)
                 .redirectUri(redirectUri)
+                .permissions(GooglePermissions.EMAIL, GooglePermissions.PROFILE)
                 .build();
     }
 
@@ -127,9 +130,26 @@ public class MainActivity extends AppCompatActivity
         String clientId = getString(R.string.instagram_client_id);
         String redirectUri = getString(R.string.instagram_redirect_uri);
         return InstagramIdentityProvider.startBuilding()
-                .permissions(InstagramPermissions.BASIC)
                 .clientId(clientId)
                 .redirectUri(redirectUri)
+                .permissions(InstagramPermissions.BASIC)
+                .build();
+    }
+
+    private IdentityProvider createVkIdentityProvider(){
+        return VkIdentityProvider.startBuilding()
+                .clientId("")
+                .redirectUri("")
+                .permissions(VkPermissions.EMAIL)
+                .build();
+    }
+
+    private IdentityProvider createYandexIdentityProvider(){
+        return YandexIdentityProvider.startBuilding()
+                .deviceId("")
+                .deviceName("")
+                .clientId("")
+                .redirectUri("")
                 .build();
     }
 

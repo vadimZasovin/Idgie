@@ -14,6 +14,7 @@ limitations under the License.*/
 package com.imogene.idgie.google;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.imogene.idgie.AbstractIdentityProvider;
 import com.imogene.idgie.ArgumentValidator;
@@ -32,7 +33,7 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
         super(authorizationUrl, redirectUri);
     }
 
-    public static PermissionsSetter startBuilding(){
+    public static ClientIdSetter<InternalFinish, GoogleIdentityProvider> startBuilding(){
         return new InternalBuilder();
     }
 
@@ -48,9 +49,17 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
         return new DefaultRedirectUriParser("access_token", "token_type", "expires_in");
     }
 
+    public interface InternalFinish extends Finish<GoogleIdentityProvider>,
+            PermissionsSetter<InternalFinish, GoogleIdentityProvider>{
+
+        InternalFinish permissions(@Nullable String... permissions);
+
+        GoogleIdentityProvider build();
+    }
+
     private static class InternalBuilder
-            extends AbstractBuilder<GoogleIdentityProvider>
-            implements PermissionsSetter {
+            extends AbstractBuilder<InternalFinish, GoogleIdentityProvider>
+            implements InternalFinish {
 
         private static final String BASE_AUTHORIZATION_URL =
                 "https://accounts.google.com/o/oauth2/v2/auth";
@@ -64,20 +73,20 @@ public class GoogleIdentityProvider extends AbstractIdentityProvider {
         }
 
         @Override
-        public RedirectUriSetter clientId(@NonNull String clientId) {
+        public InternalBuilder clientId(@NonNull String clientId) {
             ArgumentValidator.throwIfEmpty(clientId, "Client id");
             appendUrlParameter("client_id", clientId);
             return this;
         }
 
         @Override
-        public ClientIdSetter permissions(String... permissions) {
+        public InternalBuilder permissions(String... permissions) {
             appendUrlParameter("scope", ' ', permissions);
             return this;
         }
 
         @Override
-        public Finish<GoogleIdentityProvider> redirectUri(@NonNull String redirectUri) {
+        public InternalBuilder redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
             appendUrlParameter("redirect_uri", redirectUri);
             this.redirectUri = redirectUri;

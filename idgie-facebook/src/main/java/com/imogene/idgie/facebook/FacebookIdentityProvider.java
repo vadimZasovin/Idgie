@@ -34,7 +34,7 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
         super(authorizationUrl, redirectUri);
     }
 
-    public static ApiVersionSetter startBuilding(){
+    public static ClientIdSetter<InternalFinish, FacebookIdentityProvider> startBuilding(){
         return new InternalBuilder();
     }
 
@@ -50,57 +50,70 @@ public class FacebookIdentityProvider extends AbstractIdentityProvider {
         return new DefaultRedirectUriParser("access_token", null, "expires_in");
     }
 
-    public interface ApiVersionSetter{
+    public interface InternalFinish
+            extends Finish<FacebookIdentityProvider>,
+            PermissionsSetter<InternalFinish, FacebookIdentityProvider>,
+            ApiVersionSetter<InternalFinish, FacebookIdentityProvider>{
 
-        PermissionsSetter apiVersion(@Nullable String apiVersion);
+        InternalFinish permissions(@Nullable String... permissions);
+
+        InternalFinish apiVersion(@Nullable String apiVersion);
+
+        FacebookIdentityProvider build();
     }
 
     private static class InternalBuilder
-            extends AbstractBuilder<FacebookIdentityProvider>
-            implements ApiVersionSetter, PermissionsSetter {
+            extends AbstractBuilder<InternalFinish, FacebookIdentityProvider>
+            implements InternalFinish{
 
         private static final String BASE_AUTHORIZATION_URL = "https://facebook.com/";
         private static final String RESPONSE_TYPE = "token";
 
+        private String clientId;
         private String redirectUri;
+        private String[] permissions;
+        private String apiVersion;
 
         private InternalBuilder(){
             super(BASE_AUTHORIZATION_URL);
         }
 
         @Override
-        public PermissionsSetter apiVersion(@Nullable String apiVersion) {
-            apiVersion = !TextUtils.isEmpty(apiVersion) ?
-                    apiVersion :
-                    FacebookApi.DEFAULT_API_VERSION;
-            appendValue(apiVersion);
-            appendValue("/dialog/oauth");
-            return this;
-        }
-
-        @Override
-        public RedirectUriSetter clientId(@NonNull String clientId) {
+        public InternalBuilder clientId(@NonNull String clientId) {
             ArgumentValidator.throwIfEmpty(clientId, "Client id");
-            appendUrlParameter("client_id", clientId);
+            this.clientId = clientId;
             return this;
         }
 
         @Override
-        public ClientIdSetter permissions(String... permissions) {
-            appendUrlParameter("scope", ',', permissions);
-            return this;
-        }
-
-        @Override
-        public Finish<FacebookIdentityProvider> redirectUri(@NonNull String redirectUri) {
+        public InternalBuilder redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
-            appendUrlParameter("redirect_uri", redirectUri);
             this.redirectUri = redirectUri;
             return this;
         }
 
         @Override
+        public InternalBuilder permissions(@Nullable String... permissions) {
+            this.permissions = permissions;
+            return this;
+        }
+
+        @Override
+        public InternalBuilder apiVersion(@Nullable String apiVersion) {
+            this.apiVersion = apiVersion;
+            return this;
+        }
+
+        @Override
         public FacebookIdentityProvider build() {
+            if(!TextUtils.isEmpty(apiVersion)){
+                apiVersion = FacebookApi.DEFAULT_API_VERSION;
+            }
+            appendValue(apiVersion);
+            appendValue("/dialog/oauth");
+            appendUrlParameter("client_id", clientId);
+            appendUrlParameter("redirect_uri", redirectUri);
+            appendUrlParameter("scope", ',', permissions);
             appendUrlParameter("response_type", RESPONSE_TYPE);
             return new FacebookIdentityProvider(getUrl(), redirectUri);
         }

@@ -33,7 +33,7 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
         super(authorizationUrl, redirectUri);
     }
 
-    public static ApiVersionSetter startBuilding(){
+    public static ClientIdSetter<InternalFinish, VkIdentityProvider> startBuilding(){
         return new InternalBuilder();
     }
 
@@ -49,20 +49,22 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
         return new VkRedirectUriParser();
     }
 
-    public interface ApiVersionSetter{
+    public interface InternalFinish extends Finish<VkIdentityProvider>,
+            PermissionsSetter<InternalFinish, VkIdentityProvider>,
+            ApiVersionSetter<InternalFinish, VkIdentityProvider>{
 
-        RevokeSetter apiVersion(@Nullable String apiVersion);
-    }
+        InternalFinish permissions(@Nullable String... permissions);
 
-    public interface RevokeSetter{
+        InternalFinish apiVersion(String apiVersion);
 
-        PermissionsSetter revoke(boolean revoke);
+        InternalFinish revoke(boolean revoke);
+
+        VkIdentityProvider build();
     }
 
     private static class InternalBuilder
-            extends AbstractBuilder<VkIdentityProvider>
-            implements PermissionsSetter,
-            ApiVersionSetter, RevokeSetter{
+            extends AbstractBuilder<InternalFinish, VkIdentityProvider>
+            implements InternalFinish{
 
         private static final String BASE_AUTHORIZATION_URL = "https://oauth.vk.com/authorize";
         private static final String DISPLAY_MODE = "mobile";
@@ -77,7 +79,28 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
         }
 
         @Override
-        public RevokeSetter apiVersion(@Nullable String apiVersion) {
+        public InternalBuilder clientId(@NonNull String clientId) {
+            ArgumentValidator.throwIfEmpty(clientId, "Client id");
+            appendUrlParameter("client_id", clientId);
+            return this;
+        }
+
+        @Override
+        public InternalBuilder redirectUri(@NonNull String redirectUri) {
+            ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
+            appendUrlParameter("redirect_uri", redirectUri);
+            this.redirectUri = redirectUri;
+            return this;
+        }
+
+        @Override
+        public InternalBuilder permissions(String... permissions) {
+            appendUrlParameter("scope", ',', permissions);
+            return this;
+        }
+
+        @Override
+        public InternalBuilder apiVersion(@Nullable String apiVersion) {
             apiVersion = !TextUtils.isEmpty(apiVersion) ?
                     apiVersion :
                     VkApi.DEFAULT_API_VERSION;
@@ -86,28 +109,7 @@ public class VkIdentityProvider extends AbstractIdentityProvider {
         }
 
         @Override
-        public RedirectUriSetter clientId(@NonNull String clientId) {
-            ArgumentValidator.throwIfEmpty(clientId, "Client id");
-            appendUrlParameter("client_id", clientId);
-            return this;
-        }
-
-        @Override
-        public ClientIdSetter permissions(String... permissions) {
-            appendUrlParameter("scope", ',', permissions);
-            return this;
-        }
-
-        @Override
-        public Finish<VkIdentityProvider> redirectUri(@NonNull String redirectUri) {
-            ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
-            appendUrlParameter("redirect_uri", redirectUri);
-            this.redirectUri = redirectUri;
-            return this;
-        }
-
-        @Override
-        public PermissionsSetter revoke(boolean revoke) {
+        public InternalBuilder revoke(boolean revoke) {
             String revokeValue = revoke ? "1" : "0";
             appendUrlParameter("revoke", revokeValue);
             return this;

@@ -45,23 +45,31 @@ public interface IdentityProvider {
     @Nullable
     AuthorizationResult extractAuthorizationResultFromIntent(Intent intent);
 
-    interface PermissionsSetter{
+    interface ClientIdSetter<F extends Finish<IP>, IP extends IdentityProvider>{
 
-        ClientIdSetter permissions(@Nullable String... permissions);
+        RedirectUriSetter<F, IP> clientId(@NonNull String clientId);
     }
 
-    interface ClientIdSetter{
+    interface RedirectUriSetter<F extends Finish<IP>, IP extends IdentityProvider>{
 
-        RedirectUriSetter clientId(@NonNull String clientId);
-    }
-
-    interface RedirectUriSetter<T extends IdentityProvider>{
-
-        Finish<T> redirectUri(@NonNull String redirectUri);
+        F redirectUri(@NonNull String redirectUri);
     }
 
     interface Finish<T extends IdentityProvider> {
 
         T build();
     }
+
+    interface PermissionsSetter<F extends Finish<IP>, IP extends IdentityProvider>{
+
+        F permissions(@Nullable String... permissions);
+    }
+
+    interface ApiVersionSetter<F extends Finish<IP>, IP extends IdentityProvider>{
+
+        F apiVersion(@Nullable String apiVersion);
+    }
+
+    interface Builder<F extends Finish<IP>, IP extends IdentityProvider>
+            extends ClientIdSetter<F, IP>, RedirectUriSetter<F, IP>{}
 }

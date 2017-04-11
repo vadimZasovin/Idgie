@@ -20,7 +20,7 @@ public class InstagramIdentityProvider  extends AbstractIdentityProvider{
         super(authorizationUrl, redirectUri);
     }
 
-    public static PermissionsSetter startBuilding(){
+    public static ClientIdSetter<InternalFinish, InstagramIdentityProvider> startBuilding(){
         return new InternalBuilder();
     }
 
@@ -36,9 +36,17 @@ public class InstagramIdentityProvider  extends AbstractIdentityProvider{
         return new DefaultRedirectUriParser("access_token", null, null);
     }
 
+    public interface InternalFinish extends Finish<InstagramIdentityProvider>,
+            PermissionsSetter<InternalFinish, InstagramIdentityProvider>{
+
+        InternalFinish permissions(String... permissions);
+
+        InstagramIdentityProvider build();
+    }
+
     private static class InternalBuilder
-            extends AbstractBuilder<InstagramIdentityProvider>
-            implements PermissionsSetter{
+            extends AbstractBuilder<InternalFinish, InstagramIdentityProvider>
+            implements InternalFinish{
 
         private static final String BASE_AUTHORIZATION_URL =
                 "https://api.instagram.com/oauth/authorize/";
@@ -51,23 +59,23 @@ public class InstagramIdentityProvider  extends AbstractIdentityProvider{
         }
 
         @Override
-        public ClientIdSetter permissions(@Nullable String... permissions) {
-            appendUrlParameter("scope", '+', permissions);
-            return this;
-        }
-
-        @Override
-        public RedirectUriSetter clientId(@NonNull String clientId) {
+        public InternalBuilder clientId(@NonNull String clientId) {
             ArgumentValidator.throwIfEmpty(clientId, "Client id");
             appendUrlParameter("client_id", clientId);
             return this;
         }
 
         @Override
-        public Finish<InstagramIdentityProvider> redirectUri(@NonNull String redirectUri) {
+        public InternalBuilder redirectUri(@NonNull String redirectUri) {
             ArgumentValidator.throwIfEmpty(redirectUri, "Redirect uri");
             appendUrlParameter("redirect_uri", redirectUri);
             this.redirectUri = redirectUri;
+            return this;
+        }
+
+        @Override
+        public InternalBuilder permissions(@Nullable String... permissions) {
+            appendUrlParameter("scope", '+', permissions);
             return this;
         }
 

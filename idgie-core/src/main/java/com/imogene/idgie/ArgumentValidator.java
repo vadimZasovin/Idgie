@@ -29,7 +29,7 @@ public final class ArgumentValidator {
 
     public static void throwIfEmpty(String str, String argumentName){
         if(TextUtils.isEmpty(str)){
-            throwException(argumentName + " must not be null");
+            throwException(argumentName + " must not be empty");
         }
     }
 
