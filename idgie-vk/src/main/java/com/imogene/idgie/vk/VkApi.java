@@ -27,6 +27,6 @@ public interface VkApi {
     String BASE_URL = "https://api.vk.com/method/";
 
     @GET("account.getProfileInfo")
-    Call<VkProfileResponseBody> getProfile(@Query("access_token") String accessToken,
-                                           @Query("v") String apiVersion);
+    Call<ProfileResponseBody> getProfile(@Query("access_token") String accessToken,
+                                         @Query("v") String apiVersion);
 }

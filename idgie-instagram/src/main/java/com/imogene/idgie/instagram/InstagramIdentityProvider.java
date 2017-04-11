@@ -20,7 +20,7 @@ public class InstagramIdentityProvider  extends AbstractIdentityProvider{
         super(authorizationUrl, redirectUri);
     }
 
-    public static ClientIdSetter startBuilding(){
+    public static PermissionsSetter startBuilding(){
         return new InternalBuilder();
     }
 

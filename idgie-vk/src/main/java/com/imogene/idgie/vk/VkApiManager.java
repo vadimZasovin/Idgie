@@ -56,9 +56,9 @@ public class VkApiManager extends ApiManager {
     public VkProfile getProfile() throws ApiRequestException{
         String token = accessToken.token;
         String apiVersion = VkApi.DEFAULT_API_VERSION;
-        Call<VkProfileResponseBody> call = api.getProfile(token, apiVersion);
-        VkProfileResponseBody responseBody = executeCall(call);
-        return responseBody != null ? responseBody.profile : null;
+        Call<ProfileResponseBody> call = api.getProfile(token, apiVersion);
+        ProfileResponseBody responseBody = executeCall(call);
+        return responseBody != null ? responseBody.body() : null;
     }
 
     public static final class Builder extends ApiManager.Builder<VkApiManager>{

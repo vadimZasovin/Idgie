@@ -13,14 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 package com.imogene.idgie.vk;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Admin on 05.12.2016.
  */
 
-class VkProfileResponseBody {
-
-    @SerializedName("response")
-    VkProfile profile;
-}
+class ProfileResponseBody extends ResponseBodyImpl<VkProfile> {}
