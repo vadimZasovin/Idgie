@@ -19,9 +19,21 @@ package com.imogene.idgie;
 
 public final class AccessToken {
 
-    public String token;
-    public String type;
-    public long expiresIn;
+    String token;
+    String type;
+    long expiresIn;
 
     AccessToken(){}
+
+    public String getValue() {
+        return token;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public long getExpiresIn() {
+        return expiresIn;
+    }
 }

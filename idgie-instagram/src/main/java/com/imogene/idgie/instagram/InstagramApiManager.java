@@ -41,7 +41,7 @@ public class InstagramApiManager extends ApiManager {
     }
 
     public InstagramProfile getProfile() throws ApiRequestException{
-        String token = accessToken.token;
+        String token = accessToken.getValue();
         String apiVersion = InstagramApi.DEFAULT_API_VERSION;
         Call<ProfileResponseBody> call = api.getProfile(apiVersion, token);
         ProfileResponseBody responseBody = executeCall(call);

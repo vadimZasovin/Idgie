@@ -54,7 +54,7 @@ public class FacebookApiManager extends ApiManager{
     }
 
     public FacebookProfile getProfile(String... fields) throws ApiRequestException{
-        String token = accessToken.token;
+        String token = accessToken.getValue();
         String fieldsParam = FacebookProfileFields.createSingleUrlParameter(fields);
         Call<FacebookProfile> call = api.getProfile(token, fieldsParam);
         return executeCall(call);
