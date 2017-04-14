@@ -5,8 +5,9 @@ Google and so on.
 The complete list of supported identity providers looks like this now:
 1. [Facebook](https://github.com/vadimZasovin/Idgie/wiki/Facebook-integration)
 2. [Google](http://github.com)
-3. [Vkontakte](http://github.com)
-4. [Yandex](http://github.com)
+3. [Instagram]()
+4. [Vkontakte](http://github.com)
+5. [Yandex](http://github.com)
 
 This list will be expanded in the future.
 
@@ -24,10 +25,10 @@ you already have an registered app on the Facebook's page for developers.
 String clientId = getClientId();
 String redirectUri = getRedirectUri();
 IdentityProvider identityProvider = FacebookIdentityProvider.startBuilding()
-        .apiVersion(FacebookApi.DEFAULT_API_VERSION)
-        .permissions(FacebookPermissions.EMAIL, FacebookPermissions.PUBLIC_PROFILE)
         .clientId(clientId)
         .redirectUri(redirectUri)
+        .permissions(FacebookPermissions.EMAIL, FacebookPermissions.PUBLIC_PROFILE)
+        .apiVersion(FacebookApi.DEFAULT_API_VERSION)
         .build();
         
 // initiating authorization flow
@@ -86,10 +87,11 @@ allprojects {
 2. Edit your app level build.gradle file. Add dependencies for the modules you want to use in your app. Possible artifacts include:
 * ```compile 'com.imogene:idgie-facebook:{version}'```
 * ```compile 'com.imogene:idgie-google:{version}'```
+* ```compile 'com.imogene:idgie-instagram:{version}'```
 * ```compile 'com.imogene:idgie-vk:{version}'```
 * ```compile 'com.imogene:idgie-yandex:{version}'```
 
-The latest version of the library is **1.1.0**. Each module has the same version.
+The latest version of the library is **1.2.1**. Each module has the same version.
 
 ## Contributing
 One of the distinguishing features of this library is that it can expand almost infinitely. By implementing new identity providers and by adding new features to api managers. So, welcome to contribute!
