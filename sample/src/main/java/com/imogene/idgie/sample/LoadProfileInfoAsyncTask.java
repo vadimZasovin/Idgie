@@ -85,19 +85,21 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
         FacebookProfile facebookProfile = new FacebookApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile(fields);
+        String id = facebookProfile.getId();
         String name = facebookProfile.getName();
         String email = facebookProfile.getEmail();
-        return new BaseProfile(name, email);
+        return new BaseProfile(id, name, email);
     }
 
     private BaseProfile loadGoogleProfile(AccessToken accessToken) throws ApiRequestException{
         GoogleProfile googleProfile = new GoogleApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile();
+        String id = googleProfile.getId();
         String name = googleProfile.getDisplayName();
         GoogleEmail[] emails = googleProfile.getEmails();
         String email = getGoogleEmail(emails);
-        return new BaseProfile(name, email);
+        return new BaseProfile(id, name, email);
     }
 
     private String getGoogleEmail(GoogleEmail[] emails){
@@ -116,9 +118,10 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
         InstagramProfile profile = new InstagramApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile();
+        String id = String.valueOf(profile.getId());
         String name = profile.getFullName();
         String email = profile.getWebsite();
-        return new BaseProfile(name, email);
+        return new BaseProfile(id, name, email);
     }
 
     private BaseProfile loadVkProfile(AccessToken accessToken) throws ApiRequestException{
@@ -128,16 +131,17 @@ class LoadProfileInfoAsyncTask extends BaseAsyncTask<AccessToken, Void, BaseProf
         String firstName = vkProfile.getFirstName();
         String lastName = vkProfile.getLastName();
         String name = firstName + " " + lastName;
-        return new BaseProfile(name, vkEmail);
+        return new BaseProfile(null, name, vkEmail);
     }
 
     private BaseProfile loadYandexProfile(AccessToken accessToken) throws ApiRequestException{
         YandexProfile yandexProfile = new YandexApiManager.Builder(accessToken)
                 .enableLogging()
                 .build().getProfile();
+        String id = yandexProfile.getId();
         String name = yandexProfile.getDisplayName();
         String email = yandexProfile.getDefaultEmail();
-        return new BaseProfile(name, email);
+        return new BaseProfile(id, name, email);
     }
 
     private void handleApiRequestException(ApiRequestException e){

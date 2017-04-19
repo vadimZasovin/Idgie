@@ -19,12 +19,18 @@ package com.imogene.idgie.sample;
 
 final class BaseProfile {
 
+    private final String id;
     private final String name;
     private final String email;
 
-    BaseProfile(String name, String email){
+    BaseProfile(String id, String name, String email){
+        this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    String getId() {
+        return id;
     }
 
     String getName() {
