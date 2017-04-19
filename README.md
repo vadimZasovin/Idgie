@@ -91,7 +91,7 @@ allprojects {
 * ```compile 'com.imogene:idgie-vk:{version}'```
 * ```compile 'com.imogene:idgie-yandex:{version}'```
 
-The latest version of the library is **1.2.1**. Each module has the same version.
+The latest version of the library is **1.2.2**. Each module has the same version.
 
 ## Contributing
 One of the distinguishing features of this library is that it can expand almost infinitely. By implementing new identity providers and by adding new features to api managers. So, welcome to contribute!
