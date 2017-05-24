@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'maven_oss'
-    bintrayName = 'Idgie'
+    bintrayName = 'idgie-core'
 
     publishedGroupId = 'com.imogene'
     libraryName = 'Idgie'
